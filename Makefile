@@ -237,6 +237,15 @@ otel-from-tree:
 	# 4. Before committing/pushing your contrib changes, undo by running `make otel-from-lib`.
 	$(MAKE) for-all CMD="go mod edit -replace go.opentelemetry.io/collector=$(SRC_ROOT)/../opentelemetry-collector"
 
+.PHONY: otel-from-test
+otel-from-test:
+	# This command allows you to make changes to your local checkout of otel core and build
+	# contrib against those changes without having to push to github and update a bunch of
+	# references. The workflow is:
+
+	$(MAKE) for-all CMD="go mod edit -replace go.opentelemetry.io/collector@v0.25.1-0.20210424160629-2e33101196e3=github.com/open-o11y/opentelemetry-collector/tree/update-prwexporter-useragent@v0.25.1-0.20210424160629-14ca544130520"
+
+
 .PHONY: otel-from-lib
 otel-from-lib:
 	# Sets opentelemetry core to be not be pulled from local source tree. (Undoes otel-from-tree.)
